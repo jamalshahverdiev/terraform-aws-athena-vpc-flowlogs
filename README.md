@@ -1,4 +1,4 @@
-# The goal of this article comes from project requirements. We wanted to understand how much traffic is going between EKS master and worker nodes in AWS to understand AWS costs
+# The goal of this article comes from project requirements. We wanted to understand how much traffic is going between EKS master and worker nodes in AWS to understand AWS costs. We wanted to understand price per 1GB traffic between AZs (same region) and for different regions  
 
 ## Project requirements
 
