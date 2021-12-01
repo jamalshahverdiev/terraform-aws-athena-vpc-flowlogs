@@ -1,4 +1,4 @@
-# The goal of this article comes from project requirements. We wanted to understand how much traffic is going between EKS master and worker nodes in AWS to understand AWS costs. We wanted to understand price per 1GB traffic between AZs (same region) and for different regions  
+# The goal of this article comes from project requirements. We wanted to understand how much traffic is going between EKS master and worker nodes in AWS to understand AWS costs. We wanted to understand price per 1GB traffic between AZs (same region) and for different regions
 
 ## Project requirements
 
@@ -82,6 +82,7 @@ WHERE action = 'ACCEPT' AND sourceaddress in (
 ```
 
 #### After queries results will be saved in S3 bucket like as the following screen
+
 ![query_path_in_s3](images/athena-query-results-for-user-in-s3.png)
 
 #### With this way we can formulate any type of SQL queries to get information between services, pods and nodes(`source`/`destination`). I hope it will be useful to someone
