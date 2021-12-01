@@ -17,7 +17,7 @@ $ terraform init
 $ terraform plan && echo yes | terraform apply
 ```
 
-#### When terraform code files creates [`vpc flow logs`](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html) it is going to use new created `AWS S3` ARN, set `10` minutes of the aggregation interval, do partition of the logs for each `24` hour and choose log record format to Custom as the following
+#### When terraform code files creates [`vpc flow logs`](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html) it is going to use new created `AWS S3` ARN, filter ALL type of traffic, set `10` minutes of the aggregation interval, do partition of the logs for each `24` hour and choose log record format to Custom as the following
 
 ```bash
 ${version} ${account-id} ${instance-id} ${interface-id} ${pkt-srcaddr} ${srcaddr} ${srcport} ${pkt-dstaddr} ${dstaddr} ${dstport} ${protocol} ${packets} ${bytes} ${start} ${end} ${action} ${log-status} ${az-id}
@@ -60,7 +60,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS flowloggluedb.vpc_flow_logs (
 ) ROW FORMAT DELIMITED FIELDS TERMINATED BY ' ' LOCATION 's3://s3-bucket-name/AWSLogs/write-your-aws-account-id/vpcflowlogs/us-east-1/' TBLPROPERTIES ("skip.header.line.count"="1");
 ```
 
-#### Create partition to quick search (Don't write right bucket name and `Account ID`)
+#### Create partition to quick search (Don't forget write right bucket name and `Account ID`)
 
 ![create_partition](images/query-editor-create-partition-in-db.png)
 
