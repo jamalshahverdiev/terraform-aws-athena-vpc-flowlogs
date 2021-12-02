@@ -5,12 +5,12 @@
 - Get total IN/OUT of the traffic for day/month
 - Get total IN/OUT of the traffic by source/destination IP addresses
 
-### We could achieve that with `Grafana dashboards` and `Container Insights` boards but it was very unusable for the total in/out. After tests and deep research I found [`AWS official and easy way with VPC flow logs`](https://aws.amazon.com/blogs/networking-and-content-delivery/using-vpc-flow-logs-to-capture-and-query-eks-network-communications/). VPC will send all logs with the structure which we will define to the `AWS S3` but to extract and use this collected data we must use [`AWS ATHENA`](https://docs.aws.amazon.com/athena/).
+### We could achieve that with `Grafana dashboards` and `Container Insights` boards but it was very unusable for the total in/out. After tests and deep research I found [`AWS official and easy way with VPC flow logs`](https://aws.amazon.com/blogs/networking-and-content-delivery/using-vpc-flow-logs-to-capture-and-query-eks-network-communications/). VPC will send all logs with the structure which we will define to the `AWS S3` but to extract and use this collected data we must use [`AWS ATHENA`](https://docs.aws.amazon.com/athena/)
 
 - [`VPC flow logs`](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html) responsible to collect and send logs with some range interval to the `AWS s3`
 - [`AWS Athena`](https://docs.aws.amazon.com/athena/) gives us functionality to use SQL syntax to collect data from VPC flow logs.
 
-#### To use this wonderful stuff we need S3 bucket to store logs from VPC in the same region where deployed EKS cluster(In my case it is deployed in the `us-east-1` region. For the security reason data encryption is enabled for this bucket). ARN of the S3 will be used at the creation time of VPC Flow logs. After that `AWS Athena` will create glue to use database name `flowlog_gb_glue_name` variable from `vars.tf` file. All these stuff will be created with terraform codes. Just clone this repository and execute the following command (of course variables for the access and secret key with region must be defined).
+#### To use this wonderful stuff we need S3 bucket to store logs from VPC in the same region where deployed EKS cluster(In my case it is deployed in the `us-east-1` region. For the security reason data encryption is enabled for this bucket). ARN of the S3 will be used at the creation time of VPC Flow logs. After that `AWS Athena` will create glue to use database name `flowlog_gb_glue_name` variable from `vars.tf` file. All these stuff will be created with terraform codes. Just clone this repository and execute the following command (of course variables for the access and secret key with region must be defined)
 
 ```bash
 $ terraform init
@@ -31,7 +31,7 @@ ${version} ${account-id} ${instance-id} ${interface-id} ${pkt-srcaddr} ${srcaddr
 
 ![query_results_prefix](images/query-results.png)
 
-#### Create table for the log structure inside of database which we have defined in `flowlog_gb_glue_name` variable of `vars.tf` file. Structure of the fields must be same as we defined inside of the `flow logs` when we created. Please define correct S3 name and your own `Account ID`(Red deleted space) of AWS:
+#### Create table for the log structure inside of database which we have defined in `flowlog_gb_glue_name` variable of `vars.tf` file. Structure of the fields must be same as we defined inside of the `flow logs` when we created. Please define correct S3 name and your own `Account ID`(Red deleted space) of AWS
 
 ![create_table](images/query-editor-create-table-in-db.png)
 
